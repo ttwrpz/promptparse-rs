@@ -1,0 +1,24 @@
+[package]
+name = "promptparse"
+version = "1.0.0"
+edition = "2021"
+authors = ["Theerawat Patthawee <smrmakeyt@gmail.com>"]
+description = "All-in-one Rust library for PromptPay & EMVCo QR Codes"
+license = "MIT"
+keywords = ["emvco", "promptpay", "qr", "qrcode", "thai-qr-payment"]
+repository = "https://github.com/ttwrpz/promptparse-rs"
+homepage = "https://github.com/ttwrpz/promptparse-rs"
+documentation = "https://docs.rs/promptparse"
+readme = "README.md"
+
+[package.metadata]
+# Reference to original TypeScript implementation
+original-repo = "https://github.com/maythiwat/promptparse"
+
+[lib]
+name = "promptparse"
+path = "src/lib.rs"
+
+[[example]]
+name = "basic_usage"
+path = "examples/basic_usage.rs"
