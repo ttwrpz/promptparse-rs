@@ -1,11 +1,11 @@
 [package]
 name = "promptparse"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 authors = ["Theerawat Patthawee <smrmakeyt@gmail.com>"]
 description = "All-in-one Rust library for PromptPay & EMVCo QR Codes"
 license = "MIT"
-keywords = ["emvco", "promptpay", "qr", "qrcode", "thai-qr-payment"]
+keywords = ["emvco", "promptpay", "truemoney", "qrcode", "thai-qr-payment"]
 repository = "https://github.com/ttwrpz/promptparse-rs"
 homepage = "https://github.com/ttwrpz/promptparse-rs"
 documentation = "https://docs.rs/promptparse"
