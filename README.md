@@ -23,7 +23,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-promptparse = "1.0.0"
+promptparse = "1.0.1"
 ```
 
 ## Usage
