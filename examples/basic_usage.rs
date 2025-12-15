@@ -90,7 +90,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Example 8: Validate Slip Verify QR
     println!("\n8. Validating Slip Verify QR:");
     let slip_payload = "004100060000010103014022000111222233344ABCD125102TH910417DF";
-    if let Some(slip_data) = validate::slip_verify(slip_payload) {
+    if let Some(slip_data) = validate::slip_verify(slip_payload, true) {
         println!("   Valid slip verify QR!");
         println!("   Bank: {}", slip_data.sending_bank);
         println!("   Transaction Ref: {}", slip_data.trans_ref);

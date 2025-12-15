@@ -90,7 +90,7 @@ bench!(bench_parse_barcode, {
 
 bench!(bench_validate_slip_verify, {
     let payload = "004100060000010103014022000111222233344ABCD125102TH910417DF";
-    let _result = validate::slip_verify(payload);
+    let _result = validate::slip_verify(payload, true);
 });
 
 bench!(bench_with_crc_tag, {

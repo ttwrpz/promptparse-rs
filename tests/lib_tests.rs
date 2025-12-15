@@ -154,7 +154,7 @@ fn test_validate_module_accessibility() {
     use promptparse::validate;
 
     // Test validate functions (they will return None for invalid data, but should be callable)
-    let _result = validate::slip_verify("invalid");
+    let _result = validate::slip_verify("invalid", true);
     let _result = validate::true_money_slip_verify("invalid");
 }
 

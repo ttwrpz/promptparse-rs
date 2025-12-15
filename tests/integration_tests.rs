@@ -158,7 +158,7 @@ fn test_validate_checksum_tag() {
 #[test]
 fn test_validate_slip_verify_valid() {
     let payload = "004100060000010103014022000111222233344ABCD125102TH910417DF";
-    let result = validate::slip_verify(payload).unwrap();
+    let result = validate::slip_verify(payload, true).unwrap();
     assert_eq!(result.sending_bank, "014");
     assert_eq!(result.trans_ref, "00111222233344ABCD12");
 }
@@ -167,7 +167,7 @@ fn test_validate_slip_verify_valid() {
 fn test_validate_slip_verify_invalid() {
     let payload =
         "00020101021229370016A0000006770101110113006680111111153037645802TH540520.15630442BE";
-    assert!(validate::slip_verify(payload).is_none());
+    assert!(validate::slip_verify(payload, true).is_none());
 }
 
 #[test]
