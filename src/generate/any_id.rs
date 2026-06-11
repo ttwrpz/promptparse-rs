@@ -1,7 +1,7 @@
 use crate::tlv::{encode, tag, with_crc_tag};
 use crate::Result;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ProxyType {
     /// Mobile number
     Msisdn,
@@ -14,7 +14,7 @@ pub enum ProxyType {
 }
 
 impl ProxyType {
-    fn to_code(&self) -> &'static str {
+    pub(crate) fn to_code(self) -> &'static str {
         match self {
             ProxyType::Msisdn => "01",
             ProxyType::NatId => "02",

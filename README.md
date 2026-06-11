@@ -15,7 +15,7 @@ This is a Rust port of [maythiwat/promptparse](https://github.com/maythiwat/prom
 - **Parse** — PromptPay & EMVCo QR Code data strings into structs
 - **Generate** — QR Code data from pre-made templates (PromptPay AnyID, PromptPay Bill Payment, TrueMoney, etc.)
 - **Manipulate** — any values from parsed QR Code data and encode back into QR Code data
-- **Validate** — checksum and data structure for known QR Code formats (Slip Verify API Mini QR)
+- **Validate** — checksum and data structure for known QR Code formats (PromptPay AnyID, PromptPay Bill Payment, Slip Verify API Mini QR, BCEL OneProof)
 
 ## Installation
 
@@ -23,7 +23,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-promptparse = "1.0.1"
+promptparse = "1.2.0"
 ```
 
 ## Usage
@@ -113,13 +113,40 @@ fn main() {
 }
 ```
 
+### Validate & extract data from PromptPay AnyID QR
+
+```rust
+use promptparse::validate;
+
+fn main() {
+    let data = validate::any_id("000201010211...").unwrap();
+    println!("Proxy Type: {:?}", data.r#type);
+    println!("Target: {}", data.target);
+    println!("Amount: {:?}", data.amount);
+}
+```
+
+### Validate & extract data from PromptPay Bill Payment QR
+
+```rust
+use promptparse::validate;
+
+fn main() {
+    let data = validate::bill_payment("000201010211...").unwrap();
+    println!("Biller ID: {}", data.biller_id);
+    println!("Ref 1: {}", data.ref1);
+    println!("Ref 2: {:?}", data.ref2);
+    println!("Amount: {:?}", data.amount);
+}
+```
+
 ### Validate & extract data from Slip Verify QR
 
 ```rust
 use promptparse::validate;
 
 fn main() {
-    let data = validate::slip_verify("00550006000001...").unwrap();
+    let data = validate::slip_verify("00550006000001...", true).unwrap();
     println!("Sending Bank: {}", data.sending_bank);
     println!("Transaction Ref: {}", data.trans_ref);
 

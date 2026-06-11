@@ -309,3 +309,99 @@ fn test_checksum_validation() {
         "00020101021129370016A0000006770101110113006681222333353037645802TH6304FFFF";
     assert!(parse(invalid_payload, true, true).is_none());
 }
+
+#[test]
+fn test_validate_any_id_msisdn() {
+    let payload = any_id(AnyIdConfig {
+        proxy_type: ProxyType::Msisdn,
+        target: "0812223333".to_string(),
+        amount: Some(30.0),
+    })
+    .unwrap();
+
+    let result = validate::any_id(&payload).unwrap();
+    assert_eq!(result.r#type, ProxyType::Msisdn);
+    assert_eq!(result.target, "0812223333");
+    assert_eq!(result.amount, Some(30.0));
+}
+
+#[test]
+fn test_validate_any_id_natid() {
+    let payload = any_id(AnyIdConfig {
+        proxy_type: ProxyType::NatId,
+        target: "1234567890123".to_string(),
+        amount: None,
+    })
+    .unwrap();
+
+    let result = validate::any_id(&payload).unwrap();
+    assert_eq!(result.r#type, ProxyType::NatId);
+    assert_eq!(result.target, "1234567890123");
+    assert_eq!(result.amount, None);
+}
+
+#[test]
+fn test_validate_any_id_invalid() {
+    let payload = bill_payment(BillPaymentConfig {
+        biller_id: "0112233445566".to_string(),
+        amount: None,
+        ref1: "CUSTOMER001".to_string(),
+        ref2: None,
+        ref3: None,
+    })
+    .unwrap();
+
+    // A Bill Payment payload must not validate as AnyID
+    assert!(validate::any_id(&payload).is_none());
+}
+
+#[test]
+fn test_validate_bill_payment_minimal() {
+    let payload = bill_payment(BillPaymentConfig {
+        biller_id: "0112233445566".to_string(),
+        amount: None,
+        ref1: "CUSTOMER001".to_string(),
+        ref2: None,
+        ref3: None,
+    })
+    .unwrap();
+
+    let result = validate::bill_payment(&payload).unwrap();
+    assert_eq!(result.biller_id, "0112233445566");
+    assert_eq!(result.ref1, "CUSTOMER001");
+    assert_eq!(result.ref2, None);
+    assert_eq!(result.ref3, None);
+    assert_eq!(result.amount, None);
+}
+
+#[test]
+fn test_validate_bill_payment_complete() {
+    let payload = bill_payment(BillPaymentConfig {
+        biller_id: "0112233445566".to_string(),
+        amount: Some(100.50),
+        ref1: "CUSTOMER001".to_string(),
+        ref2: Some("INV001".to_string()),
+        ref3: Some("SCB".to_string()),
+    })
+    .unwrap();
+
+    let result = validate::bill_payment(&payload).unwrap();
+    assert_eq!(result.biller_id, "0112233445566");
+    assert_eq!(result.ref1, "CUSTOMER001");
+    assert_eq!(result.ref2, Some("INV001".to_string()));
+    assert_eq!(result.ref3, Some("SCB".to_string()));
+    assert_eq!(result.amount, Some(100.50));
+}
+
+#[test]
+fn test_validate_bill_payment_invalid() {
+    let payload = any_id(AnyIdConfig {
+        proxy_type: ProxyType::Msisdn,
+        target: "0812223333".to_string(),
+        amount: None,
+    })
+    .unwrap();
+
+    // An AnyID payload must not validate as Bill Payment
+    assert!(validate::bill_payment(&payload).is_none());
+}
